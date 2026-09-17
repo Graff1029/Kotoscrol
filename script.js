@@ -14,7 +14,7 @@ for (let i = 1; i <= 22; i++) {
 // Динамически добавляем 4 фото для примера
 for (let i = 1; i <= 4; i++) {
     mediaItems.push({ 
-        id: 22 + i, 
+        id: 4 + i, 
         type: "image", 
         src: `assets/photos/cat${i}.jpg`, 
         title: `Фото ${i}` 
