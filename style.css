@@ -1,0 +1,239 @@
+/* Сброс стилей и базовые настройки */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+}
+
+:root {
+    --bg-color: #0b090c;
+    --card-bg: #1a161c;
+    --text-main: #ffffff;
+    --text-muted: #a09a9f;
+    --accent-color: #b73273;
+    --accent-hover: #d8458b;
+    --win-color: #2e8b57;
+    --lose-color: #8b2e2e;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Фоновые свечения */
+.glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.4;
+    pointer-events: none;
+    transition: all 1.5s ease-in-out; /* Плавное изменение цвета и позиции */
+}
+.glow-1 {
+    top: -10%; left: -10%;
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle, rgba(183, 50, 115, 0.3) 0%, rgba(0,0,0,0) 70%);
+}
+.glow-2 {
+    bottom: -20%; right: -10%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, rgba(82, 33, 145, 0.3) 0%, rgba(0,0,0,0) 70%);
+}
+
+/* Шапка и меню */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: linear-gradient(180deg, rgba(11, 9, 12, 0.9) 0%, rgba(11, 9, 12, 0) 100%);
+    position: relative;
+    z-index: 100;
+}
+.logo { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
+.nav { display: flex; gap: 20px; }
+.nav-btn {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 16px; cursor: pointer; padding: 8px 16px;
+    border-radius: 20px; transition: all 0.3s ease;
+}
+.nav-btn:hover { color: var(--text-main); }
+.nav-btn.active { color: var(--text-main); background-color: rgba(255, 255, 255, 0.1); }
+
+/* Основной контейнер */
+.main-content {
+    flex-grow: 1; position: relative; overflow: hidden;
+}
+.tab-content {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    display: flex; flex-direction: column; align-items: center;
+}
+.tab-content.active { opacity: 1; visibility: visible; }
+
+/* ЛЕНТА (Карусель) */
+.carousel-container {
+    position: relative; width: 100%; height: 80vh;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1000px;
+}
+.media-card {
+    position: absolute; width: 320px; height: 570px;
+    background-color: var(--card-bg); border-radius: 24px; overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease, filter 0.5s ease;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5); cursor: grab; will-change: transform;
+}
+.media-card:active { cursor: grabbing; transition: none; }
+.media-card.center { transform: translateX(0) scale(1); z-index: 10; opacity: 1; filter: blur(0); }
+.media-card.left {
+    transform: translateX(-120%) scale(0.85) rotateY(15deg);
+    z-index: 5; opacity: 0.5; filter: blur(4px) brightness(0.7); pointer-events: none;
+}
+.media-card.right {
+    transform: translateX(120%) scale(0.85) rotateY(-15deg);
+    z-index: 5; opacity: 0.5; filter: blur(4px) brightness(0.7); pointer-events: none;
+}
+.media-card.hidden-card {
+    transform: translateX(0) scale(0.5); z-index: 1; opacity: 0; pointer-events: none;
+}
+.media-card .media-content { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+.error-fallback {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #222; display: flex; align-items: center; justify-content: center;
+    text-align: center; color: #888; padding: 20px; font-size: 14px;
+}
+
+.card-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 40px 20px 20px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    display: flex; justify-content: space-between; align-items: flex-end;
+    pointer-events: none;
+}
+.card-text { display: flex; flex-direction: column; }
+.card-title { font-size: 18px; font-weight: 600; }
+.card-id { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.card-actions { display: flex; flex-direction: column; gap: 15px; pointer-events: auto; }
+
+.icon-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: none; color: white;
+    font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s; backdrop-filter: blur(5px);
+}
+.icon-btn:hover { background: rgba(255,255,255,0.2); }
+.icon-btn.active { color: var(--accent-color); }
+.icon-btn.active svg { fill: var(--accent-color); }
+
+.play-pause-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(0,0,0,0.5); color: white; border: none; font-size: 24px;
+    display: none; pointer-events: none;
+}
+.media-card.paused .play-pause-btn { display: block; }
+
+.carousel-controls { display: flex; gap: 40px; margin-top: -20px; }
+.arrow-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    color: white; width: 50px; height: 50px; border-radius: 50%;
+    cursor: pointer; font-size: 20px; transition: all 0.3s;
+}
+.arrow-btn:hover { background: rgba(255,255,255,0.1); }
+
+/* КОРОЛЕВСКАЯ БИТВА */
+.battle-screen { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+.hidden { display: none !important; }
+.battle-header { text-align: center; margin-bottom: 30px; }
+.battle-header h2 { font-size: 28px; margin-bottom: 5px; }
+.battle-progress { color: var(--text-muted); font-size: 14px; }
+.battle-arena { display: flex; gap: 40px; justify-content: center; align-items: center; flex-grow: 1; }
+.battle-card {
+    width: 280px; height: 500px; background: var(--card-bg); border-radius: 20px; overflow: hidden;
+    position: relative; cursor: pointer; border: 2px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
+}
+.battle-card video { width: 100%; height: 100%; object-fit: cover; }
+.battle-card.hover-target { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(46, 139, 87, 0.4); border-color: rgba(46, 139, 87, 0.7); }
+.battle-card.dimmed-target { transform: translateY(10px); filter: brightness(0.6); box-shadow: 0 10px 30px rgba(139, 46, 46, 0.4); }
+.battle-card.winner-anim { box-shadow: 0 0 40px rgba(46, 139, 87, 0.8); border-color: rgba(46, 139, 87, 1); transform: scale(1.05); }
+.battle-card.loser-anim { filter: grayscale(1) brightness(0.3); transform: scale(0.95); }
+
+/* Итоги битвы */
+.battle-winner-card {
+    position: relative;
+    width: 200px; height: 350px; border-radius: 16px; overflow: hidden;
+    margin: 20px 0; border: 3px solid #ffd700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+.battle-winner-card video { width: 100%; height: 100%; object-fit: cover; }
+.top-title { margin-top: 20px; color: var(--text-muted); }
+.top-list { margin: 15px 0 30px; padding-left: 20px; font-size: 16px; line-height: 1.8; }
+.primary-btn {
+    background: var(--accent-color); color: white; border: none; padding: 12px 30px;
+    border-radius: 30px; font-size: 16px; cursor: pointer; transition: background 0.3s;
+}
+.primary-btn:hover { background: var(--accent-hover); }
+
+/* ИЗБРАННОЕ */
+.fav-grid {
+    width: 100%; max-width: 1200px; padding: 40px; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; overflow-y: auto; max-height: 85vh;
+}
+.fav-grid::-webkit-scrollbar { width: 8px; }
+.fav-grid::-webkit-scrollbar-track { background: transparent; }
+.fav-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+.fav-card {
+    position: relative; border-radius: 16px; overflow: hidden; height: 300px; cursor: pointer; transition: opacity 0.4s, transform 0.3s;
+}
+.fav-card:hover { transform: translateY(-5px); }
+.fav-card .media-content { width: 100%; height: 100%; object-fit: cover; }
+.fav-card-info {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 10px 10px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+    display: flex; justify-content: space-between; align-items: flex-end;
+}
+.fav-card-title { font-size: 14px; }
+.fav-actions { display: flex; gap: 8px; align-items: center; }
+.floating-fav-mute {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); border: none; color: white; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; backdrop-filter: blur(2px);
+}
+.floating-fav-mute:hover { background: rgba(255,255,255,0.4); }
+.floating-fav-mute svg { width: 16px; height: 16px; }
+
+.remove-fav-btn {
+    background: rgba(255,0,0,0.6); border: none; color: white;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+}
+.empty-state { margin-top: 100px; text-align: center; font-size: 18px; color: var(--text-muted); }
+.empty-state button { margin-top: 20px; }
+
+/* ПРОСМОТР ФОТО */
+.photo-viewer {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9); z-index: 1000; display: flex; justify-content: center; align-items: center;
+}
+.photo-viewer img { max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+.close-btn {
+    position: absolute; top: 20px; right: 30px; background: transparent; border: none; color: white;
+    font-size: 40px; cursor: pointer;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header { padding: 15px 20px; flex-direction: column; gap: 10px; }
+    .media-card { width: 260px; height: 460px; }
+    .battle-arena { flex-direction: column; gap: 20px; }
+    .battle-card { width: 220px; height: 390px; }
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Котоскролл</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Фоновые свечения -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Верхнее меню -->
+    <header class="header">
+        <div class="logo">Котоскролл</div>
+        <nav class="nav">
+            <button class="nav-btn active" data-tab="feed">Лента</button>
+            <button class="nav-btn" data-tab="battle">Королевская битва</button>
+            <button class="nav-btn" data-tab="fav">Избранное</button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        
+        <!-- Вкладка 1: Лента -->
+        <section id="feed" class="tab-content active">
+            <div class="carousel-container" id="carousel">
+                <!-- Карточки будут добавляться через JS -->
+            </div>
+            <div class="carousel-controls">
+                <button id="prev-btn" class="arrow-btn">&larr;</button>
+                <button id="next-btn" class="arrow-btn">&rarr;</button>
+            </div>
+        </section>
+
+        <!-- Вкладка 2: Королевская битва -->
+        <section id="battle" class="tab-content">
+            <div id="battle-active" class="battle-screen">
+                <div class="battle-header">
+                    <h2 id="battle-round-title">Раунд 1</h2>
+                    <p>Выбери лучшее видео</p>
+                    <p id="battle-progress" class="battle-progress">Осталось видео: 0</p>
+                </div>
+                <div class="battle-arena" id="battle-arena">
+                    <!-- Карточки битвы -->
+                </div>
+            </div>
+            
+            <div id="battle-results" class="battle-screen hidden">
+                <h2>Король котиков 👑</h2>
+                <div id="battle-winner" class="battle-winner-card"></div>
+                
+                <h3 class="top-title">Топ-5 турнира</h3>
+                <ol id="battle-top-list" class="top-list"></ol>
+                
+                <button id="restart-battle-btn" class="primary-btn">Начать новую битву</button>
+            </div>
+        </section>
+
+        <!-- Вкладка 3: Избранное -->
+        <section id="fav" class="tab-content">
+            <div id="fav-empty" class="empty-state hidden">
+                <p>Здесь пока нет любимых котиков 😿</p>
+                <button id="go-to-feed-btn" class="primary-btn">Перейти в ленту</button>
+            </div>
+            <div id="fav-grid" class="fav-grid">
+                <!-- Избранные карточки -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Просмотрщик фото -->
+    <div id="photo-viewer" class="photo-viewer hidden">
+        <button id="close-viewer" class="close-btn">&times;</button>
+        <img id="viewer-img" src="" alt="Full photo">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
