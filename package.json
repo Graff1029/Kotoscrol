@@ -1,0 +1,19 @@
+{
+  "name": "kotoscrol-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Автоматические тесты учебного проекта Котоскролл",
+  "scripts": {
+    "test": "npm run test:all",
+    "test:unit": "vitest run tests/static.test.js tests/app.test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
+    "test:all": "npm run test:unit && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0",
+    "jsdom": "^26.1.0",
+    "vitest": "^3.2.4"
+  }
+}
